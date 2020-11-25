@@ -1,0 +1,30 @@
+version: '3'
+services:
+  # api:
+  #   build: api/
+  #   image: dolphub/redischat_api
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - PORT=3000
+  #     - REDIS_PORT=6379
+  #     - REDIS_HOST=redis
+  #   depends_on:
+  #     - redis
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  db_pgql:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
+      POSTGRES_DB: core
+    ports:
+      - 5432:5432
+    # volumes:
+    #   - 'database:/var/lib/postgresql/data'

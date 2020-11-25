@@ -1,0 +1,1 @@
+`CREATE TABLE "public"."videos" ("id" text NOT NULL,"title" text NOT NULL,"description" text NOT NULL,"url" text NOT NULL);`
