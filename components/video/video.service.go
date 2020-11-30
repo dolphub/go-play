@@ -12,6 +12,7 @@ type VideoService interface {
 	Save(c *gin.Context) (*Video, error)
 	FindAll() ([]Video, error)
 	FindById(string) (*Video, error)
+	DeleteById(string) error
 }
 
 type service struct {
@@ -55,4 +56,13 @@ func (s *service) FindById(id string) (*Video, error) {
 	}
 
 	return video, nil
+}
+
+func (s *service) DeleteById(id string) error {
+	video, err := s.FindById(id)
+	if err != nil {
+		return err
+	}
+	s.repo.Delete(video)
+	return nil
 }

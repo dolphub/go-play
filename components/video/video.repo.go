@@ -12,6 +12,7 @@ type Repo interface {
 	Save(*Video) (*Video, error)
 	FindAll() ([]Video, error)
 	FindById(string) (*Video, error)
+	Delete(*Video) error
 }
 
 type repo struct {
@@ -62,4 +63,17 @@ func (r *repo) FindById(id string) (*Video, error) {
 		return nil, err
 	}
 	return video, nil
+}
+
+func (r *repo) Delete(video *Video) error {
+
+	result, err := r.db.Model(video).WherePK().Delete()
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected() == 0 {
+		spew.Dump(result)
+		return apperr.BadRequestError("Error deleting video")
+	}
+	return nil
 }

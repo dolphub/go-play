@@ -65,4 +65,17 @@ func (ctrl *videoController) Register() {
 		}
 		c.JSON(http.StatusAccepted, video)
 	})
+
+	videoRoutes.DELETE("/:id", func(c *gin.Context) {
+		uri := &VideoByIdUri{}
+		if err := c.ShouldBindUri(uri); err != nil {
+			apperr.Response(c, err)
+			return
+		}
+
+		if err := ctrl.service.DeleteById(uri.Id); err != nil {
+			apperr.Response(c, err)
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
+	})
 }
